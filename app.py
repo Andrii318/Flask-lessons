@@ -37,16 +37,19 @@ def posts():
     return render_template("posts.html", articles=articles)
 
 
+# noinspection PyShadowingBuiltins
 @app.route('/post/<int:id>')
 def post_detail(id):
     article = Article.query.get(id)
     return render_template("post_detail.html", article=article)
 
 
+# noinspection PyPep8,PyBroadException
 @app.route('/post/<int:id>/delete')
 def post_delete(id):
     article = Article.query.get_or_404(id)
 
+    # noinspection PyPep8
     try:
         db.session.delete(article)
         db.session.commit()
@@ -54,6 +57,8 @@ def post_delete(id):
     except:
         return "При удалении статьи произошла ошибка"
 
+
+# noinspection PyPep8
 @app.route('/post/<int:id>/update', methods=["GET", "POST"])
 def post_update(id):
     article = Article.query.get(id)
@@ -69,9 +74,10 @@ def post_update(id):
             return "При редактировании статьи произошла ошибка"
 
     else:
-            return render_template("post_update.html", article=article)
+        return render_template("post_update.html", article=article)
 
 
+# noinspection PyPep8
 @app.route('/create-article', methods=["GET", "POST"])
 def create_article():
     if request.method == "POST":
